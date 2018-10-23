@@ -3,6 +3,7 @@ package com.bmh.githubrepository.UI;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.View;
@@ -10,8 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.bmh.githubrepository.R;
 import com.bmh.githubrepository.Tools.StaticValues;
-import com.bmh.recycle.R;
 
 public class Dialogs  extends DialogFragment {
 
@@ -25,20 +26,15 @@ public class Dialogs  extends DialogFragment {
         return dialogs;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(activity instanceof DialogsInterface)) {
-            throw new ClassCastException(activity.toString() + " must implement DialogsInterface");
-        }
-    }
-
-
-    @Override
+     @NonNull@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog=null;
-        String message = getArguments().getString(StaticValues.DIALOG_MESSAGE, "");
-        int dialogType = getArguments().getInt(StaticValues.DIALOG_TYPE, 0);
+         String message="";
+         int dialogType=0;
+        if(getArguments()!=null) {
+            message=getArguments().getString(StaticValues.DIALOG_MESSAGE, "");
+            dialogType = getArguments().getInt(StaticValues.DIALOG_TYPE, 0);
+        }
         if(dialogType== StaticValues.DIALOG_TYPE_SYSTEM_ALERT){
             dialog= getSystemAlert(message);
         }

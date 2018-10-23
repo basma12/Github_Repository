@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bmh.githubrepository.Model.Repo;
+import com.bmh.githubrepository.R;
 import com.bmh.githubrepository.Tools.StaticValues;
-import com.bmh.recycle.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +25,14 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private List<Repo> dataFiltered;
     private ItemFilter mFilter = new ItemFilter();
     private boolean isLoadingAdded = false;
-
-
-    Activity activity;
+    private Activity activity;
 
     public RepoAdapter(Activity activity) {
         this.activity = activity;
-        data=new ArrayList<>();
-        this.onRecyclerItemClickListener= (OnRecyclerItemClickListener) activity;
+        data = new ArrayList<>();
+        this.onRecyclerItemClickListener = (OnRecyclerItemClickListener) activity;
     }
+
     public List<Repo> getRepos() {
         return data;
     }
@@ -44,6 +43,7 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         this.dataFiltered = data;
 
     }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -67,7 +67,7 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         switch (getItemViewType(position)) {
             case StaticValues.ITEM:
-                ((RepoViewHolder) viewHolder).setData((Repo) data.get(position));
+                ((RepoViewHolder) viewHolder).setData(data.get(position));
                 break;
             case StaticValues.LOADING:
                 break;
@@ -81,8 +81,8 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemCount() {
-        if(dataFiltered!=null)
-        return dataFiltered.size();
+        if (dataFiltered != null)
+            return dataFiltered.size();
         return 0;
     }
 
@@ -94,31 +94,37 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         data.add(repo);
         notifyItemInserted(data.size() - 1);
     }
+
     public void addAll(List<Repo> repoList) {
         for (Repo repo : repoList) {
             add(repo);
         }
     }
-    public void remove(Repo repo) {
+
+    private void remove(Repo repo) {
         int position = data.indexOf(repo);
         if (position > -1) {
             data.remove(position);
             notifyItemRemoved(position);
         }
     }
+
     public void clear() {
         isLoadingAdded = false;
         while (getItemCount() > 0) {
             remove(getItem(0));
         }
     }
+
     public boolean isEmpty() {
         return getItemCount() == 0;
     }
+
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Repo());
     }
+
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
@@ -131,9 +137,10 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    public Repo getItem(int position) {
+    private Repo getItem(int position) {
         return data.get(position);
     }
+
     protected class RepoViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         public TextView tvRepoName, tvDescription, tvUserName;
         public View view;
@@ -141,13 +148,13 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         private OnRecyclerItemClickListener onRecyclerItemClickListener;
         private Repo repo;
 
-        public RepoViewHolder(View view, OnRecyclerItemClickListener onRecyclerItemClickListener) {
+        private RepoViewHolder(View view, OnRecyclerItemClickListener onRecyclerItemClickListener) {
             super(view);
             this.view = view;
-            tvRepoName = (TextView) view.findViewById(R.id.tvRepoName);
-            tvDescription = (TextView) view.findViewById(R.id.tvDescription);
-            tvUserName = (TextView) view.findViewById(R.id.tvUserName);
-            layout = (LinearLayout) view.findViewById(R.id.layoutMain);
+            tvRepoName = view.findViewById(R.id.tvRepoName);
+            tvDescription = view.findViewById(R.id.tvDescription);
+            tvUserName = view.findViewById(R.id.tvUserName);
+            layout = view.findViewById(R.id.layoutMain);
 
             this.onRecyclerItemClickListener = onRecyclerItemClickListener;
             view.setOnLongClickListener(this);
@@ -173,9 +180,9 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    protected class LoadingVH extends RecyclerView.ViewHolder {
+    private class LoadingVH extends RecyclerView.ViewHolder {
 
-        public LoadingVH(View itemView) {
+        private LoadingVH(View itemView) {
             super(itemView);
         }
     }
@@ -185,7 +192,7 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             int count = data.size();
-            final ArrayList<Repo> nlist = new ArrayList<Repo>(count);
+            final ArrayList<Repo> nlist = new ArrayList<>(count);
             for (int i = 0; i < count; i++) {
                 if (data.get(i).getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                     nlist.add(data.get(i));

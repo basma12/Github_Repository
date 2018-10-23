@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.bmh.recycle.R;
+import com.bmh.githubrepository.R;
 
 public class Notifications {
     Context context;
